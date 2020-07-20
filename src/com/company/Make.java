@@ -10,6 +10,7 @@ public class Make  {
         validation();
     }
     public void validation() {
+
         Coffee coffeeMashin = new Coffee();
         Scanner in = new Scanner(System.in);
         System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino");
