@@ -4,6 +4,7 @@ public class Cappuccino  implements CoffeeInterface {
     private Integer water = 100;
     private Integer milk = 100;
     private Integer coffee = 100;
+    private Integer money = 4;
 
     public Integer getWater() {
         return water;
@@ -13,5 +14,8 @@ public class Cappuccino  implements CoffeeInterface {
     }
     public Integer getCoffee() {
         return coffee;
+    }
+    public Integer getMoney() {
+        return money;
     }
 }

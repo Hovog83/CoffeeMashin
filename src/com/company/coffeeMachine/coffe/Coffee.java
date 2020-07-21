@@ -1,67 +1,32 @@
 package com.company.coffeeMachine.coffe;
 
-import com.company.coffeeMachine.coffe.coffeeType.CoffeFactory;
-import com.company.coffeeMachine.coffe.coffeeType.CoffeeInterface;
+import com.company.coffeeMachine.coffe.commands.CommandInterface;
+import com.company.coffeeMachine.coffe.commands.CommandsFactory;
 
-import java.util.Arrays;
+import java.util.Scanner;
 
-public class Coffee {
+public class Coffee extends Resources {
 
-    private String makeCoffeType = "1"; // wrote string for test
-    private Integer water        = 1;
-    private Integer milk         = 1;
-    private Integer coffee       = 1;
-    private Integer willNeed     = 1;
+    Resources resources = null;
 
-    public void setCoffeType(String type) {
-        this.makeCoffeType = type;
+    public Coffee() {
+        this.resources = new Resources();
+        this.in = new Scanner(System.in);
+        this.init();
     }
-    public void setWater(Integer water) {
-        this.water = water;
-    }
-    public void setMilk(Integer milk) {
-        this.milk = milk;
-    }
-    public void setCoffee(Integer coffee) {
-        this.coffee = coffee;
-    }
-    public void setWillNeed(Integer willNeed) {
-        this.willNeed = willNeed;
-    }
-
-    public String validation(){
-        CoffeFactory coffeFactory = new CoffeFactory();
-        CoffeeInterface typeOfCo = coffeFactory.getCoffeType(this.makeCoffeType);
-        Integer count = this.canMake(typeOfCo);
-
-        System.out.println("c");
-        System.out.println(count);
-
-        System.out.println("c2");
-        System.out.println(this.willNeed);
-
-        if(count > this.willNeed){
-            return "Yes, I can make that amount of coffee (and even "+( count - this.willNeed )+" more than that)";
-        }else if(count == this.willNeed){
-            return "Yes, I can make that amount of coffee";
+    public void init(){
+        System.out.println("Write action (buy, fill, take, remaining, exit)");
+        this.command = in.nextLine();
+        if(this.command != "exit"){
+            this.start();
         }
-        return "No, I can make only "+(this.canMake(typeOfCo))+" cup(s) of coffee";
+    }
+    public  void start() {
+        CommandsFactory commandsFactory = new CommandsFactory();
+        CommandInterface command =  commandsFactory.getCommands(this.command);
+        command.start(this.resources,this.in);
+        this.init();
     }
 
-    private Integer canMake(CoffeeInterface typeOfC){
-        Integer water =  this.water/typeOfC.getWater();
-        Integer milk =   this.milk/typeOfC.getMilk() ;
-        Integer coffee = this.coffee/typeOfC.getCoffee() ;
-        return getMinVal(water,milk,coffee);
-    }
-    private Integer getMinVal(Integer water,Integer milk, Integer coffee){
-        Integer[] caps = {
-                water,
-                milk,
-                coffee,
-        };
-        Arrays.sort(caps);
-        return caps[0];
-    }
 
 }
